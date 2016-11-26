@@ -1,0 +1,1 @@
+C:\Users\Alan\Desktop\uwpApp\CalendarApplication\CalendarApplication\CalendarApplication.csproj;arm
