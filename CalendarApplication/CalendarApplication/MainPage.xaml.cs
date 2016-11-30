@@ -24,6 +24,7 @@ namespace CalendarApplication
 {
     public sealed partial class MainPage : Page
     {
+        
         private MobileServiceCollection<TodoItem, TodoItem> items;
 #if OFFLINE_SYNC_ENABLED
         private IMobileServiceSyncTable<TodoItem> todoTable = App.MobileService.GetSyncTable<TodoItem>(); // offline sync
@@ -35,7 +36,7 @@ namespace CalendarApplication
         {
             this.InitializeComponent();
         }
-
+        /**
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
 #if OFFLINE_SYNC_ENABLED
@@ -149,6 +150,6 @@ namespace CalendarApplication
            await todoTable.PullAsync("todoItems", todoTable.CreateQuery());
         }
 #endif
-        #endregion
+        #endregion**/
     }
 }
