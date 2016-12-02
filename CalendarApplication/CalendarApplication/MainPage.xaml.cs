@@ -22,6 +22,8 @@ using Microsoft.WindowsAzure.MobileServices.Sync;         // offline sync
 
 namespace CalendarApplication
 {
+
+
     public sealed partial class MainPage : Page
     {
         
@@ -36,7 +38,7 @@ namespace CalendarApplication
         {
             this.InitializeComponent();
         }
-        /**
+        
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
 #if OFFLINE_SYNC_ENABLED
@@ -80,7 +82,7 @@ namespace CalendarApplication
             else
             {
                 ListItems.ItemsSource = items;
-                this.ButtonSave.IsEnabled = true;
+                this.AddApointment.IsEnabled = true;
             }
         }
 
@@ -108,11 +110,20 @@ namespace CalendarApplication
 
             ButtonRefresh.IsEnabled = true;
         }
+        
+
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            var todoItem = new TodoItem { Text = TextInput.Text };
-            TextInput.Text = "";
+            DateTimeOffset appDate;
+
+            if (AppointmentDate.Date.HasValue)
+            {
+                appDate = AppointmentDate.Date.Value;
+            }
+
+            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.DataContext.ToString(), appointmentTimeEnd = AppointmentTimeEnd.DataContext.ToString() };
+            textBox.Text = "";
             await InsertTodoItem(todoItem);
         }
 
@@ -126,7 +137,7 @@ namespace CalendarApplication
         private void TextInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter) {
-                ButtonSave.Focus(FocusState.Programmatic);
+                AddApointment.Focus(FocusState.Programmatic);
             }
         }
 
