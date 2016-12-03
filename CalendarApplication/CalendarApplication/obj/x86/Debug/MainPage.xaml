@@ -36,7 +36,7 @@
                     Margin=" 50 0 300 100" >
         </TimePicker>
         <!--Submit button-->
-        <Button x:ConnectionId='5' x:Name="AddApointment"                             
+        <Button x:ConnectionId='5' x:Name="AddApointment"                          
                 VerticalAlignment="Center" HorizontalAlignment="Left"
                 Margin=" 50 50 0 0" >Submit
         </Button>
@@ -59,21 +59,22 @@
         <!--Delete appointments-->
         <Button x:ConnectionId='8' x:Name="DeleteAppointent" 
                 VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin=" 500 350 0 0" >Delete
+                Margin=" 485 350 0 0" >Delete
         </Button>
         <!--Refresh Button-->
         <Button x:ConnectionId='9' x:Name="ButtonRefresh"                             
                 VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin=" 500 350 0 0" >Delete
+                Margin=" 570 350 0 0" >Refresh
         </Button>
         
         <!--Appointment Checklist-->
-        <ListView x:ConnectionId='10' x:Name="ListItems">
+        <!--
+        <ListView x:Name="ListItems">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox x:ConnectionId='11' x:Name="CheckBoxComplete" 
+                    <CheckBox x:Name="CheckBoxComplete" 
                                           IsChecked="{Binding Complete, Mode=TwoWay}" 
-                                                                             
+                                          Checked="CheckBoxComplete_Checked" 
                                           MaxWidth="550"
                                           VerticalAlignment="Center">
                         <TextBlock Name="ItemText" Text="{Binding Text}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
@@ -81,7 +82,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        -->
     </Grid>
 
 </Page>

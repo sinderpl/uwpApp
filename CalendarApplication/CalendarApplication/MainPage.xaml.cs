@@ -58,7 +58,6 @@ namespace CalendarApplication
             await App.MobileService.SyncContext.PushAsync(); // offline sync
 #endif
         }
-
         private async Task RefreshTodoItems()
         {
             MobileServiceInvalidOperationException exception = null;
@@ -81,7 +80,7 @@ namespace CalendarApplication
             }
             else
             {
-                ListItems.ItemsSource = items;
+                //ListItems.ItemsSource = items;
                 this.AddApointment.IsEnabled = true;
             }
         }
@@ -92,7 +91,7 @@ namespace CalendarApplication
 			// After the MobileService client responds, the item is removed from the list.
             await todoTable.UpdateAsync(item);
             items.Remove(item);
-            ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
+            //ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
 
 #if OFFLINE_SYNC_ENABLED
             await App.MobileService.SyncContext.PushAsync(); // offline sync
@@ -115,14 +114,17 @@ namespace CalendarApplication
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+           
             DateTimeOffset appDate;
-
+            Console.WriteLine("Output: ");
+            
             if (AppointmentDate.Date.HasValue)
             {
                 appDate = AppointmentDate.Date.Value;
+                appDate = appDate.Date);
             }
-
-            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.DataContext.ToString(), appointmentTimeEnd = AppointmentTimeEnd.DataContext.ToString() };
+            Console.WriteLine(textBox.Text + " , " + appDate + " , " + AppointmentTimeStart.Time.ToString() + " , " + AppointmentTimeEnd.Time.ToString());
+            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString() };
             textBox.Text = "";
             await InsertTodoItem(todoItem);
         }

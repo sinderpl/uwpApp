@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Roots >
   <Roots.PropertyPathNames>
-    <RootPropertyPathName Name="Complete" />
-    <RootPropertyPathName Name="Text" />
     <RootPropertyPathName Name="Filter" />
   </Roots.PropertyPathNames>
   <Roots.RootTypes>
@@ -106,19 +104,6 @@
       <RootProperty Name="Margin" />
       <RootProperty Name="Content" />
       <RootEvent Name="Click" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.ListView">
-      <RootProperty Name="ItemTemplate" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.DataTemplate">
-      <RootProperty Name="Template" />
-    </RootType>
-    <RootType FullName="Windows.UI.Xaml.Controls.CheckBox">
-      <RootProperty Name="IsChecked" />
-      <RootProperty Name="MaxWidth" />
-      <RootProperty Name="VerticalAlignment" />
-      <RootProperty Name="Content" />
-      <RootEvent Name="Checked" />
     </RootType>
     <RootType FullName="Windows.UI.Xaml.Data.Binding">
       <RootProperty Name="Mode" />
