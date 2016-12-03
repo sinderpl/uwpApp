@@ -51,6 +51,8 @@ namespace CalendarApplication
         {
             // This code inserts a new TodoItem into the database. After the operation completes
             // and the mobile app backend has assigned an id, the item is added to the CollectionView.
+            //await App.MobileService.GetTable<TodoItem>().InsertAsync(todoItem);
+            //var td = new TodoItem();
             await todoTable.InsertAsync(todoItem);
             items.Add(todoItem);
 
@@ -114,14 +116,13 @@ namespace CalendarApplication
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-           
-            DateTimeOffset appDate;
-            Console.WriteLine("Output: ");
-            
+            //The date picker has returned a strange date signature so it had to be converted 
+            // through this method to a normal DateTimeOffset
+            String appDate = "";
             if (AppointmentDate.Date.HasValue)
             {
-                appDate = AppointmentDate.Date.Value;
-                appDate = appDate.Date);
+                appDate = AppointmentDate.Date.Value.ToString();
+                //appDate = appDate.Date.ToString();
             }
             Console.WriteLine(textBox.Text + " , " + appDate + " , " + AppointmentTimeStart.Time.ToString() + " , " + AppointmentTimeEnd.Time.ToString());
             var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString() };

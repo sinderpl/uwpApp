@@ -19,7 +19,7 @@ namespace CalendarApplication
         public String appointmentTimeEnd { get; set; }
 
         [JsonProperty(PropertyName = "appointmentDate")]
-        public DateTimeOffset appointmentDate { get; set; }
+        public String appointmentDate { get; set; }
 
         [JsonProperty(PropertyName = "complete")]
         public bool Complete { get; set; }
