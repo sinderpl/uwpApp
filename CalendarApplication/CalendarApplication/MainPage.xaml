@@ -66,7 +66,12 @@
                 VerticalAlignment="Center" HorizontalAlignment="Left"
                 Margin=" 570 350 0 0" >Refresh
         </Button>
-        
+
+
+        <!--Refresh Button-->
+        <CalendarView VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="300,140,0,368">
+        </CalendarView>
         <!--Appointment Checklist-->
         <!--
         <ListView x:Name="ListItems">
