@@ -1,0 +1,94 @@
+﻿<Page
+    x:Class="CalendarApplication.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CalendarApplication"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Height="840" Width="648">
+    <!--Appointment code reference :https://www.youtube.com/watch?v=QRCVbBI1v70&index=2&list=FL3pBknA3dicXHMau72FR-4A -->
+    <Grid  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top">
+            Appointment Creation
+        </TextBlock>
+        <!--Add name-->
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                   Margin="50,0,0,700">
+          Appointment Title
+        </TextBlock>
+        <TextBox x:ConnectionId='1' x:Name="textBox" Height="20" Width="200" Margin="50,0,0,630" 
+                 VerticalAlignment="Center" HorizontalAlignment="Left"
+                 TextWrapping="Wrap" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                 PlaceholderText="Enter Appointment Title"/>
+        <!--Choose date-->
+        <CalendarDatePicker x:ConnectionId='2' x:Name="AppointmentDate" Header="Appointment date" PlaceholderText="Choose the date" 
+                            VerticalAlignment="Center" HorizontalAlignment="Left"
+                            Margin=" 50 0 0 500" DateFormat="{}{day.integer} {month.full} {year.full}">
+        </CalendarDatePicker>
+        <!--Choose start time-->
+        <TimePicker x:ConnectionId='3' x:Name="AppointmentTimeStart" Header="What time does it start ?"
+                    VerticalAlignment="Center" HorizontalAlignment="Left"
+                    Margin=" 50 0 300 300" DataContext="x:startTime">
+        </TimePicker>
+        <!--Chooose end time-->
+        <TimePicker x:ConnectionId='4' x:Name="AppointmentTimeEnd" Header="What time does it finish ?"
+                    VerticalAlignment="Center" HorizontalAlignment="Left"
+                    Margin=" 50 0 300 100" >
+        </TimePicker>
+        <!--Submit button-->
+        <Button x:ConnectionId='5' x:Name="AddApointment"                          
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin=" 50 50 0 0" >Submit
+        </Button>
+
+        <!--Appointment retrieval-->
+        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                   Margin="50, 300,0 ,0">
+            Appointment Retrieval
+        </TextBlock>
+        <TextBox x:ConnectionId='6' x:Name="SearchByName" Height="20" Width="200" Margin="50,370,0,0" 
+                 VerticalAlignment="Center" HorizontalAlignment="Left"
+                 TextWrapping="Wrap" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                 PlaceholderText="Find appointment by name"/>
+        <!--Choose date for search-->
+        <CalendarDatePicker x:ConnectionId='7' x:Name="SearchByDate" Header="Appointment date" PlaceholderText="Choose the date" 
+                            VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                            Margin="300,560,195,220"
+                            DateFormat="{}{day.integer} {month.full} {year.full}">
+        </CalendarDatePicker>
+        <!--Delete appointments-->
+        <Button x:ConnectionId='8' x:Name="DeleteAppointent" 
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin=" 485 350 0 0" >Delete
+        </Button>
+        <!--Refresh Button-->
+        <Button x:ConnectionId='9' x:Name="ButtonRefresh"                             
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin=" 570 350 0 0" >Refresh
+        </Button>
+
+
+        <!--Refresh Button-->
+        <CalendarView VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="300,140,0,368">
+        </CalendarView>
+        <!--Appointment Checklist-->
+        <!--
+        <ListView x:Name="ListItems">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox x:Name="CheckBoxComplete" 
+                                          IsChecked="{Binding Complete, Mode=TwoWay}" 
+                                          Checked="CheckBoxComplete_Checked" 
+                                          MaxWidth="550"
+                                          VerticalAlignment="Center">
+                        <TextBlock Name="ItemText" Text="{Binding Text}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
+                    </CheckBox>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        -->
+    </Grid>
+
+</Page>
+

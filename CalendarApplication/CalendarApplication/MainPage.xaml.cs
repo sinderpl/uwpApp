@@ -14,6 +14,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media;
 
 
 #if OFFLINE_SYNC_ENABLED
@@ -112,8 +114,48 @@ namespace CalendarApplication
 
             ButtonRefresh.IsEnabled = true;
         }
-        
 
+        // Code adapted from https://msdn.microsoft.com/en-us/windows/uwp/contacts-and-calendar/managing-appointments
+        private async void Create_Appointment(TodoItem item, TimeSpan start, TimeSpan end, Rect rect)
+        {
+            //function vars
+            bool isAppointmentValid = true;
+            TimeSpan appDur = end - start;
+            var appD = appDur.TotalMinutes;
+
+
+            //appointment var intializing and setting    
+            var appointment = new Windows.ApplicationModel.Appointments.Appointment();
+            appointment.Subject = item.Text;
+            //Adapted from http://stackoverflow.com/questions/18919530/convert-string-to-time
+            appointment.StartTime = DateTime.ParseExact(item.appointmentTime, "HH:mm:ss",System.Globalization.CultureInfo.CurrentCulture);
+            System.Diagnostics.Debug.Write(appointment.StartTime);
+            appointment.Duration = TimeSpan.FromMinutes(appD);
+            appointment.Reminder = TimeSpan.FromMinutes(15);
+
+            
+            // ShowAddAppointmentAsync returns an appointment id if the appointment given was added to the user's calendar.
+            // This value should be stored in app data and roamed so that the appointment can be replaced or removed in the future.
+            // An empty string return value indicates that the user canceled the operation before the appointment was added.
+            String appointmentId = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowAddAppointmentAsync(
+                                   appointment, rect, Windows.UI.Popups.Placement.Default);
+            if (appointmentId != String.Empty)
+            {
+                //ResultTextBlock.Text = "Appointment Id: " + appointmentId;
+            }
+            else
+            {
+                //ResultTextBlock.Text = "Appointment not added.";
+            }
+        }
+
+        //Adapted from https://social.msdn.microsoft.com/Forums/en-US/f5feb8b2-0555-403e-a1f9-967ccf970c7a/how-can-i-transform-rectangle-to-rect-and-vice-versa?forum=winappswithcsharp
+        public static Rect GetElementRect(FrameworkElement element)
+        {
+            GeneralTransform buttonTransform = element.TransformToVisual(null);
+            Point point = buttonTransform.TransformPoint(new Point());
+            return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
+        }
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
@@ -125,8 +167,10 @@ namespace CalendarApplication
                 appDate = AppointmentDate.Date.Value.ToString();
                 //appDate = appDate.Date.ToString();
             }
-            Console.WriteLine(textBox.Text + " , " + appDate + " , " + AppointmentTimeStart.Time.ToString() + " , " + AppointmentTimeEnd.Time.ToString());
+            var rect = GetElementRect(sender as FrameworkElement);
+            // System.Diagnostics.Debug.Write(textBox.Text + " , " + appDate + " , " + AppointmentTimeStart.Time.ToString() + " , " + AppointmentTimeEnd.Time.ToString());
             var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString() };
+            Create_Appointment(todoItem, AppointmentTimeStart.Time,  AppointmentTimeEnd.Time, rect);
             textBox.Text = "";
             await InsertTodoItem(todoItem);
         }
