@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
-
+using Windows.UI.Core;
 
 #if OFFLINE_SYNC_ENABLED
 using Microsoft.WindowsAzure.MobileServices.SQLiteStore;  // offline sync
@@ -134,10 +134,16 @@ namespace CalendarApplication
             appointment.Duration = TimeSpan.FromMinutes(appD);
             appointment.Reminder = TimeSpan.FromMinutes(15);
 
-            
+
             // ShowAddAppointmentAsync returns an appointment id if the appointment given was added to the user's calendar.
             // This value should be stored in app data and roamed so that the appointment can be replaced or removed in the future.
             // An empty string return value indicates that the user canceled the operation before the appointment was added.
+
+            //Extra measure to ensure the blogID is returned correctly
+            MessageDialog dialog = new MessageDialog("If you press accept, please do not close the empty window. \nIt will close itself once the operation is complete.");
+
+            //Add the appointment to the user calendar and ensure the ID is returned
+            await dialog.ShowAsync();
             String appointmentId = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowAddAppointmentAsync(
                                    appointment, rect, Windows.UI.Popups.Placement.Default);
             System.Diagnostics.Debug.Write("app id: " + appointmentId);
@@ -175,9 +181,6 @@ namespace CalendarApplication
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-           
-            //The date picker has returned a strange date signature so it had to be converted 
-            // through this method to a normal DateTimeOffset
             String appDate = "";
             if (AppointmentDate.Date.HasValue)
             {

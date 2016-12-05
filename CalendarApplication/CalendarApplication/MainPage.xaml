@@ -95,6 +95,34 @@
             </ListView.ItemTemplate>
         </ListView>
         -->
+        
+        <!--Pop up-->
+        <Popup x:Name="ppupStarted" IsOpen="False" IsLightDismissEnabled="True"  
+     Width="320" HorizontalAlignment="Left">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <!--<EdgeUIThemeTransition Edge="Left" />-->
+                    <PaneThemeTransition Edge="Left" />
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Grid Width="380" Height="{Binding ElementName=flyoutPane, Path=Height}"  Background="{ThemeResource FlyoutBackgroundThemeBrush}" >
+                <TextBlock Text="Please do not close this window yet" />
+            </Grid>
+        </Popup>
+
+        
+        <Popup x:Name="ppupClosed" IsOpen="False" IsLightDismissEnabled="True"  
+     Width="320" HorizontalAlignment="Left">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <!--<EdgeUIThemeTransition Edge="Left" />-->
+                    <PaneThemeTransition Edge="Left" />
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Grid Width="380" Height="{Binding ElementName=flyoutPane, Path=Height}"  Background="{ThemeResource FlyoutBackgroundThemeBrush}" >
+                <TextBlock Text="Close the window now" />
+            </Grid>
+        </Popup>
     </Grid>
 
 </Page>
