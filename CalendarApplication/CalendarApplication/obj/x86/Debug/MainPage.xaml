@@ -23,67 +23,65 @@
         <!--Choose date-->
         <CalendarDatePicker x:ConnectionId='2' x:Name="AppointmentDate" Header="Appointment date" PlaceholderText="Choose the date" 
                             VerticalAlignment="Center" HorizontalAlignment="Left"
-                            Margin=" 50 0 0 500" DateFormat="{}{day.integer} {month.full} {year.full}">
+                            Margin="45,256,0,524" DateFormat="{}{day.integer} {month.full} {year.full}">
         </CalendarDatePicker>
         <!--Choose start time-->
         <TimePicker x:ConnectionId='3' x:Name="AppointmentTimeStart" Header="What time does it start ?"
                     VerticalAlignment="Center" HorizontalAlignment="Left"
-                    Margin=" 50 0 300 300" DataContext="x:startTime">
+                    Margin="50,126,0,654" DataContext="x:startTime">
         </TimePicker>
         <!--Chooose end time-->
         <TimePicker x:ConnectionId='4' x:Name="AppointmentTimeEnd" Header="What time does it finish ?"
                     VerticalAlignment="Center" HorizontalAlignment="Left"
-                    Margin=" 50 0 300 100" >
+                    Margin="50,191,0,589" >
         </TimePicker>
         <!--Submit button-->
         <Button x:ConnectionId='5' x:Name="AddApointment"                          
                 VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin=" 50 50 0 0" >Submit
+                Margin="50,333,0,475" >Submit
         </Button>
 
         <!--Show Calendar button-->
         <Button x:ConnectionId='6' x:Name="showCalendar"                    
                 VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin=" 180 50 0 0" >Show Calendar
+                Margin="173,333,0,475" RenderTransformOrigin="0.462,1.469" >Show Calendar
         </Button>
 
         <!--Appointment retrieval-->
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
-                   Margin="50, 300,0 ,0">
+                   Margin="45,438,0,382">
             Appointment Retrieval
         </TextBlock>
-        <TextBox x:ConnectionId='7' x:Name="SearchByName" Height="20" Width="200" Margin="50,370,0,0" 
+        <TextBox x:ConnectionId='7' x:Name="SearchByName" Height="20" Width="200" Margin="45,463,0,345" 
                  VerticalAlignment="Center" HorizontalAlignment="Left"
                  TextWrapping="Wrap" Text="{Binding Filter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                  PlaceholderText="Find appointment by name"/>
+        
         <!--Choose date for search-->
-        <CalendarDatePicker x:ConnectionId='8' x:Name="SearchByDate" Header="Appointment date" PlaceholderText="Choose the date" 
+        <CalendarDatePicker x:ConnectionId='8' x:Name="SearchByDate" Header="Search by date" PlaceholderText="Choose the date" 
                             VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                            Margin="300,560,195,220"
+                            Margin="250,435,245,345"
                             DateFormat="{}{day.integer} {month.full} {year.full}">
         </CalendarDatePicker>
+        
         <!--Delete appointments-->
-        <Button x:ConnectionId='9' x:Name="DeleteAppointent" 
-                VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin=" 485 350 0 0" >Delete
-        </Button>
         <!--Refresh Button-->
-        <Button x:ConnectionId='10' x:Name="ButtonRefresh"                             
+        <Button x:ConnectionId='9' x:Name="ButtonRefresh"                             
                 VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin=" 570 350 0 0" >Refresh
+                Margin="519,463,0,345" Width="69" >Refresh
         </Button>
-
-
-        <!---->
-        <CalendarView x:ConnectionId='11' x:Name="calView"  
-                      VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin="330,140,0,368">
-        </CalendarView>
+        
+        <!--Search Button-->
+        <Button x:ConnectionId='10' x:Name="ButtonSearch"                            
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="408,461,0,346" Width="106" Height="33" >Search
+        </Button>
+        
         <!--Appointment Checklist-->
-        <ListView x:ConnectionId='12' x:Name="ListItems" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,626,0,10" Height="204" Width="498">
+        <ListView x:ConnectionId='11' x:Name="ListItems" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,503,0,69" Height="268" Width="498">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox x:ConnectionId='13' x:Name="CheckBoxComplete" 
+                    <CheckBox x:ConnectionId='12' x:Name="CheckBoxComplete" 
                                           IsChecked="{Binding Complete, Mode=TwoWay}" 
                                                                              
                                           MaxWidth="550"

@@ -111,7 +111,7 @@ namespace CalendarApplication
             await App.MobileService.SyncContext.PushAsync(); // offline sync
 #endif
         }
-
+        
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
             ButtonRefresh.IsEnabled = false;
@@ -119,9 +119,86 @@ namespace CalendarApplication
 #if OFFLINE_SYNC_ENABLED
             await SyncAsync(); // offline sync
 #endif
+           
             await RefreshTodoItems();
 
             ButtonRefresh.IsEnabled = true;
+        }
+
+        //Distinguish the search
+        private async void ButtonSearch_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonSearch.IsEnabled = false;
+            if (SearchByName.Text != "")
+            {
+                await SearchItemsbyName();
+            }
+            else if (SearchByDate.Date.HasValue)
+            {
+                await SearchItemsByDate();
+            }
+            ButtonSearch.IsEnabled = true;
+        }
+
+        private async Task SearchItemsByDate()
+        {
+            MobileServiceInvalidOperationException exception = null;
+            try
+            {
+            //Convert date to a string value
+            String appDate = "";
+            if (AppointmentDate.Date.HasValue)
+            {
+                appDate = AppointmentDate.Date.Value.ToString("MM dd yyyy");
+            }
+                // This code refreshes the entries in the list view by querying the TodoItems table.
+                // The query excludes completed TodoItems.
+                items = await todoTable
+                    .Where(todoItem => todoItem.appointmentDate == appDate)
+                    .ToCollectionAsync();
+            }
+            catch (MobileServiceInvalidOperationException e)
+            {
+                exception = e;
+            }
+
+            if (exception != null)
+            {
+                await new MessageDialog(exception.Message, "Error loading items").ShowAsync();
+            }
+            else
+            {
+                ListItems.ItemsSource = items;
+                this.AddApointment.IsEnabled = true;
+            }
+        }
+
+        private async Task SearchItemsbyName()
+        {
+            MobileServiceInvalidOperationException exception = null;
+            try
+            {
+                string appointmentName = SearchByName.Text;
+                // This code refreshes the entries in the list view by querying the TodoItems table.
+                // The query excludes completed TodoItems.
+                items = await todoTable
+                    .Where(todoItem => todoItem.Text == appointmentName)
+                    .ToCollectionAsync();
+            }
+            catch (MobileServiceInvalidOperationException e)
+            {
+                exception = e;
+            }
+
+            if (exception != null)
+            {
+                await new MessageDialog(exception.Message, "Error loading items").ShowAsync();
+            }
+            else
+            {
+                ListItems.ItemsSource = items;
+                this.AddApointment.IsEnabled = true;
+            }
         }
 
         // Code adapted from https://msdn.microsoft.com/en-us/windows/uwp/contacts-and-calendar/managing-appointments
