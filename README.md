@@ -6,9 +6,9 @@ Windows Universal Platform. It features a MVVM based architecture and utilises a
 
 ###MVVM
 The app features the following components:
-	1. MainPage.xaml - As the view
-	2. MainPage.xaml.cs - As the view model
-	3. DataModel TodoItem.cs - As the model
+1. MainPage.xaml - As the view
+2. MainPage.xaml.cs - As the view model
+3. DataModel TodoItem.cs - As the model
 
 ###Binding
 The application manipulates the Windows 10 built in Calendar feature by offering the ability to 
