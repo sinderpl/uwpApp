@@ -110,7 +110,7 @@
             </Grid>
         </Popup>
 
-        
+
         <Popup x:Name="ppupClosed" IsOpen="False" IsLightDismissEnabled="True"  
      Width="320" HorizontalAlignment="Left">
             <Popup.ChildTransitions>

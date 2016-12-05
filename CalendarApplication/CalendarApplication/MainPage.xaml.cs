@@ -31,6 +31,7 @@ namespace CalendarApplication
     {
         
         private MobileServiceCollection<TodoItem, TodoItem> items;
+        private string appointmentIdGlobal = "";
 #if OFFLINE_SYNC_ENABLED
         private IMobileServiceSyncTable<TodoItem> todoTable = App.MobileService.GetSyncTable<TodoItem>(); // offline sync
 #else
@@ -116,20 +117,24 @@ namespace CalendarApplication
         }
 
         // Code adapted from https://msdn.microsoft.com/en-us/windows/uwp/contacts-and-calendar/managing-appointments
-        private async void Create_Appointment(TodoItem item, TimeSpan start, TimeSpan end, Rect rect)
+        private async Task Create_Appointment(string time, string dateVar,string name ,TimeSpan start, TimeSpan end, Rect rect)
         {
             //function vars
-            bool isAppointmentValid = true;
             TimeSpan appDur = end - start;
             var appD = appDur.TotalMinutes;
 
+            //Convert the date and time back into DateTime objects
+            var startTime = DateTime.ParseExact(time, "HH:mm:ss", System.Globalization.CultureInfo.CurrentCulture);
 
+            var date = DateTime.ParseExact(dateVar, "MM dd yyyy", new System.Globalization.CultureInfo("id-ID"), System.Globalization.DateTimeStyles.None);
+            var timeZoneOffset = TimeZoneInfo.Local.GetUtcOffset(DateTime.Now);
+            
             //appointment var intializing and setting    
             var appointment = new Windows.ApplicationModel.Appointments.Appointment();
-            appointment.Subject = item.Text;
+            appointment.Subject = name;
 
             //Adapted from http://stackoverflow.com/questions/18919530/convert-string-to-time
-            appointment.StartTime = DateTime.ParseExact(item.appointmentTime, "HH:mm:ss",System.Globalization.CultureInfo.CurrentCulture);
+            appointment.StartTime = new DateTimeOffset(date.Year, date.Month, date.Day, startTime.Hour, startTime.Minute, 0 ,timeZoneOffset);
             System.Diagnostics.Debug.Write(appointment.StartTime);
             appointment.Duration = TimeSpan.FromMinutes(appD);
             appointment.Reminder = TimeSpan.FromMinutes(15);
@@ -146,31 +151,26 @@ namespace CalendarApplication
             await dialog.ShowAsync();
             String appointmentId = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowAddAppointmentAsync(
                                    appointment, rect, Windows.UI.Popups.Placement.Default);
-            System.Diagnostics.Debug.Write("app id: " + appointmentId);
             //Might be redundant
             if (appointmentId != String.Empty)
             {
-                item.appointmentID = appointmentId;
-                System.Diagnostics.Debug.Write(" item app id: " + item.appointmentID);
-                //ResultTextBlock.Text = "Appointment Id: " + appointmentId;
-            }
-            else
-            {
-                //ResultTextBlock.Text = "Appointment not added.";
+                appointmentIdGlobal = appointmentId;
             }
         }
 
         //Adapted from https://social.msdn.microsoft.com/Forums/en-US/f5feb8b2-0555-403e-a1f9-967ccf970c7a/how-can-i-transform-rectangle-to-rect-and-vice-versa?forum=winappswithcsharp
         public static Rect GetElementRect(FrameworkElement element)
         {
+            //This is necessary to open the pop up to add the appointment
             GeneralTransform buttonTransform = element.TransformToVisual(null);
             Point point = buttonTransform.TransformPoint(new Point());
             return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
         }
 
         //Adapted from https://blogs.windows.com/buildingapps/2014/03/13/build-apps-that-connect-with-people-and-calendar-part-2-appointments/#lSzUlU8pZfca36uS.97
+        //Show the calendar
         private async void Show_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             var dateToShow = new DateTimeOffset(2014, 2, 25, 18, 32, 0, 0,
                     TimeSpan.FromHours(-8));
             DateTime thisDay = DateTime.Today;
@@ -181,18 +181,24 @@ namespace CalendarApplication
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+            //Convert date to a string value
             String appDate = "";
             if (AppointmentDate.Date.HasValue)
             {
-                appDate = AppointmentDate.Date.Value.ToString();
-                //appDate = appDate.Date.ToString();
+                appDate = AppointmentDate.Date.Value.ToString("MM dd yyyy");
             }
             var rect = GetElementRect(sender as FrameworkElement);
-            // System.Diagnostics.Debug.Write(textBox.Text + " , " + appDate + " , " + AppointmentTimeStart.Time.ToString() + " , " + AppointmentTimeEnd.Time.ToString());
-            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString() };
-            Create_Appointment(todoItem, AppointmentTimeStart.Time,  AppointmentTimeEnd.Time, rect);
-            System.Diagnostics.Debug.Write("app id: " + todoItem.appointmentID);
+
+            //Create appointment locally, await because we need to wait for the appointment id to return
+            await Create_Appointment(AppointmentTimeStart.Time.ToString(), appDate, textBox.Text, AppointmentTimeStart.Time, AppointmentTimeEnd.Time, rect);
+
+            //Create a new todo item
+            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString(), appointmentID = appointmentIdGlobal}; 
+            
+            //Clear necessary variables
             textBox.Text = "";
+            appointmentIdGlobal = "";
+            //Insert into the azure db
             await InsertTodoItem(todoItem);
         }
 
