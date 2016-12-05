@@ -127,6 +127,7 @@ namespace CalendarApplication
             //appointment var intializing and setting    
             var appointment = new Windows.ApplicationModel.Appointments.Appointment();
             appointment.Subject = item.Text;
+
             //Adapted from http://stackoverflow.com/questions/18919530/convert-string-to-time
             appointment.StartTime = DateTime.ParseExact(item.appointmentTime, "HH:mm:ss",System.Globalization.CultureInfo.CurrentCulture);
             System.Diagnostics.Debug.Write(appointment.StartTime);
@@ -139,8 +140,12 @@ namespace CalendarApplication
             // An empty string return value indicates that the user canceled the operation before the appointment was added.
             String appointmentId = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowAddAppointmentAsync(
                                    appointment, rect, Windows.UI.Popups.Placement.Default);
+            System.Diagnostics.Debug.Write("app id: " + appointmentId);
+            //Might be redundant
             if (appointmentId != String.Empty)
             {
+                item.appointmentID = appointmentId;
+                System.Diagnostics.Debug.Write(" item app id: " + item.appointmentID);
                 //ResultTextBlock.Text = "Appointment Id: " + appointmentId;
             }
             else
@@ -157,8 +162,20 @@ namespace CalendarApplication
             return new Rect(point, new Size(element.ActualWidth, element.ActualHeight));
         }
 
+        //Adapted from https://blogs.windows.com/buildingapps/2014/03/13/build-apps-that-connect-with-people-and-calendar-part-2-appointments/#lSzUlU8pZfca36uS.97
+        private async void Show_Click(object sender, RoutedEventArgs e)
+        {
+            var dateToShow = new DateTimeOffset(2014, 2, 25, 18, 32, 0, 0,
+                    TimeSpan.FromHours(-8));
+            DateTime thisDay = DateTime.Today;
+            var duration = TimeSpan.FromHours(1);
+            await Windows.ApplicationModel.Appointments.AppointmentManager.ShowTimeFrameAsync(
+                thisDay, duration);
+        }
+
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
+           
             //The date picker has returned a strange date signature so it had to be converted 
             // through this method to a normal DateTimeOffset
             String appDate = "";
@@ -171,6 +188,7 @@ namespace CalendarApplication
             // System.Diagnostics.Debug.Write(textBox.Text + " , " + appDate + " , " + AppointmentTimeStart.Time.ToString() + " , " + AppointmentTimeEnd.Time.ToString());
             var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString() };
             Create_Appointment(todoItem, AppointmentTimeStart.Time,  AppointmentTimeEnd.Time, rect);
+            System.Diagnostics.Debug.Write("app id: " + todoItem.appointmentID);
             textBox.Text = "";
             await InsertTodoItem(todoItem);
         }

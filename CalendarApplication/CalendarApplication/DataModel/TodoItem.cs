@@ -9,6 +9,9 @@ namespace CalendarApplication
     {
         public string Id { get; set; }
 
+        [JsonProperty(PropertyName = "appointmentID")]
+        public string appointmentID{ get; set; }
+
         [JsonProperty(PropertyName = "appointmentName")]
         public string Text { get; set; }
 

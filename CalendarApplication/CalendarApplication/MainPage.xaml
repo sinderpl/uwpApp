@@ -41,6 +41,12 @@
                 Margin=" 50 50 0 0" >Submit
         </Button>
 
+        <!--Show Calendar button-->
+        <Button x:Name="showCalendar"  Click="Show_Click"
+                VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin=" 180 50 0 0" >Show Calendar
+        </Button>
+
         <!--Appointment retrieval-->
         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
                    Margin="50, 300,0 ,0">
@@ -69,8 +75,9 @@
 
 
         <!--Refresh Button-->
-        <CalendarView VerticalAlignment="Center" HorizontalAlignment="Left"
-                Margin="300,140,0,368">
+        <CalendarView x:Name="calView"  
+                      VerticalAlignment="Center" HorizontalAlignment="Left"
+                Margin="330,140,0,368">
         </CalendarView>
         <!--Appointment Checklist-->
         <!--
