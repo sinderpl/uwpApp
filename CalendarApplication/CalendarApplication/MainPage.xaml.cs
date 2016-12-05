@@ -314,14 +314,7 @@ namespace CalendarApplication
                 bool removed;
                     removed = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowRemoveAppointmentAsync(
                               appointmentId, rect, Windows.UI.Popups.Placement.Default);
-                if (removed)
-                {
-                    System.Diagnostics.Debug.Write("success");
-                }
-                else
-                {
-                    System.Diagnostics.Debug.Write("Failed to remove");
-                }
+                System.Diagnostics.Debug.Write((removed) ? "success" : "Failed to remove");
             }
 
         //Code Added to delete the object from the azure database

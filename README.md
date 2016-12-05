@@ -24,3 +24,53 @@ Here is another example of Binding, this time a value in one of the models is bi
 	<TextBlock Name="ItemText" Text="{Binding dataString}>
 ```
 
+###Conditional Operators
+The following is a simple print statement that represents a use of the **Conditional Operators** feature.
+```C#
+	System.Diagnostics.Debug.Write((removed) ?  "success" : "Failed to remove");
+```
+
+###Calendar
+I have implemented the calendar feature  by allowing the calendar to be opened with a single user click.
+The application is synchronized with the calendar allowing for the creation and deletion of appointments
+in the actual user calendar. In the following code I insert an appointment into the calendar and await the return of an ID value.
+```C#
+String appointmentId = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowAddAppointmentAsync(
+                                   appointment, rect, Windows.UI.Popups.Placement.Default);
+```
+
+###Async & Await
+Async and Await are used widely throught the application to allow for a smoother user experience.
+They allow for the methods to be executed on another thread, keeping the interface runnning while the tasks execute 
+in the background.
+In the following code I also show the Search by Date feature I implemented which allows for the user to query for all 
+appointments on a given day.
+```C#
+private async Task SearchItemsByDate()
+        {
+            MobileServiceInvalidOperationException exception = null;
+            try
+            {
+            //Convert date to a string value
+            String appDate = "";
+            if (AppointmentDate.Date.HasValue)
+            {
+                appDate = AppointmentDate.Date.Value.ToString("MM dd yyyy");
+            }
+                // This code refreshes the entries in the list view by querying the TodoItems table.
+                // The query excludes completed TodoItems.
+                items = await todoTable
+                    .Where(todoItem => todoItem.appointmentDate == appDate)
+                    .ToCollectionAsync();
+            }
+```
+
+###Azure
+The application is synced with the Azure cloud services, saving all the appointments in the cloud.
+It also pulls them down whenever it is needed, mainly during the application initiation.
+```C#
+        private IMobileServiceTable<TodoItem> todoTable = App.MobileService.GetTable<TodoItem>();
+```
+
+
+
