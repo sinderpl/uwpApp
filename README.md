@@ -16,10 +16,9 @@ create custom appointments with values input by the user **(X:Bind)** feature.
 
 The code below binds the Name to the button allowing for the button to be referenced in the ViewModel,
 the Click side calls the corresponding method when the button is pressed.
-	 <Button x:Name="ButtonSearch" Click="ButtonSearch_Click" />
+	 "<Button x:Name="ButtonSearch" Click="ButtonSearch_Click" />"
 
 Here is another example of Binding, this time a value in one of the models is binded to the textbox in order to show it onscreen.
-	<TextBlock Name="ItemText" Text="{Binding dataString}
-< /br>
+	"<TextBlock Name="ItemText" Text="{Binding dataString}>"
 
 
