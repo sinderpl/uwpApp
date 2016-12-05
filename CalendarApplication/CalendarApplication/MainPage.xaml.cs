@@ -41,6 +41,14 @@ namespace CalendarApplication
         public MainPage()
         {
             this.InitializeComponent();
+            warningMessage();
+        }
+
+        public async void warningMessage()
+        {
+            //Extra measure to ensure the blogID is returned correctly
+            MessageDialog dialog = new MessageDialog("Please do not close any empty windows that appear during operation. \nThis is necessary for the commands to execute properly.");
+            await dialog.ShowAsync();
         }
         
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -86,7 +94,7 @@ namespace CalendarApplication
             }
             else
             {
-                //ListItems.ItemsSource = items;
+                ListItems.ItemsSource = items;
                 this.AddApointment.IsEnabled = true;
             }
         }
@@ -97,7 +105,7 @@ namespace CalendarApplication
 			// After the MobileService client responds, the item is removed from the list.
             await todoTable.UpdateAsync(item);
             items.Remove(item);
-            //ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
+            ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
 
 #if OFFLINE_SYNC_ENABLED
             await App.MobileService.SyncContext.PushAsync(); // offline sync
@@ -142,13 +150,9 @@ namespace CalendarApplication
 
             // ShowAddAppointmentAsync returns an appointment id if the appointment given was added to the user's calendar.
             // This value should be stored in app data and roamed so that the appointment can be replaced or removed in the future.
-            // An empty string return value indicates that the user canceled the operation before the appointment was added.
-
-            //Extra measure to ensure the blogID is returned correctly
-            MessageDialog dialog = new MessageDialog("If you press accept, please do not close the empty window. \nIt will close itself once the operation is complete.");
+            // An empty string return value indicates that the user canceled the operation before the appointment was added
 
             //Add the appointment to the user calendar and ensure the ID is returned
-            await dialog.ShowAsync();
             String appointmentId = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowAddAppointmentAsync(
                                    appointment, rect, Windows.UI.Popups.Placement.Default);
             //Might be redundant
@@ -203,6 +207,47 @@ namespace CalendarApplication
         }
 
         private async void CheckBoxComplete_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            TodoItem item = cb.DataContext as TodoItem;
+            await UpdateCheckedTodoItem(item);
+
+
+            //Adapted from https://msdn.microsoft.com/en-us/windows/uwp/contacts-and-calendar/managing-appointments
+            // The appointment id argument for ShowRemoveAppointmentAsync is typically retrieved from AddAppointmentAsync and stored in app data.
+            String appointmentId = item.appointmentID;
+
+            // The appointment id cannot be null or empty.
+            if (String.IsNullOrEmpty(appointmentId))
+            {
+                //Handle for empty strinfg
+            }
+            else
+            {
+                // Get the selection rect of the button pressed to remove this appointment
+                var rect = GetElementRect(sender as FrameworkElement);
+
+                // ShowRemoveAppointmentAsync returns a boolean indicating whether or not the appointment related to the appointment id given was removed.
+                // An optional instance start time can be provided to indicate that a specific instance on that date should be removed
+                // in the case of a recurring appointment.
+                bool removed;
+                    removed = await Windows.ApplicationModel.Appointments.AppointmentManager.ShowRemoveAppointmentAsync(
+                              appointmentId, rect, Windows.UI.Popups.Placement.Default);
+                if (removed)
+                {
+                    System.Diagnostics.Debug.Write("success");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Write("Failed to remove");
+                }
+            }
+
+        //Code Added to delete the object from the azure database
+        await todoTable.DeleteAsync(item);
+        }
+
+        private async void itemTextWrap(object sender, RoutedEventArgs e)
         {
             CheckBox cb = (CheckBox)sender;
             TodoItem item = cb.DataContext as TodoItem;
