@@ -2,7 +2,7 @@
 <Roots >
   <Roots.PropertyPathNames>
     <RootPropertyPathName Name="Complete" />
-    <RootPropertyPathName Name="Text" />
+    <RootPropertyPathName Name="dataString" />
     <RootPropertyPathName Name="Filter" />
   </Roots.PropertyPathNames>
   <Roots.RootTypes>

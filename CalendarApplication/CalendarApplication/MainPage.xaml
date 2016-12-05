@@ -86,7 +86,7 @@
                                           Checked="CheckBoxComplete_Checked" 
                                           MaxWidth="550"
                                           VerticalAlignment="Center">
-                        <TextBlock Name="ItemText" Text="{Binding Text}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
+                        <TextBlock Name="ItemText" Text="{Binding dataString}" MaxWidth="550" HorizontalAlignment="Left" TextWrapping="WrapWholeWords"/>
                     </CheckBox>
                 </DataTemplate>
             </ListView.ItemTemplate>

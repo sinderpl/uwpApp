@@ -196,6 +196,7 @@ namespace CalendarApplication
             }
             else
             {
+                SearchByName.Text = "";
                 ListItems.ItemsSource = items;
                 this.AddApointment.IsEnabled = true;
             }
@@ -273,8 +274,11 @@ namespace CalendarApplication
             //Create appointment locally, await because we need to wait for the appointment id to return
             await Create_Appointment(AppointmentTimeStart.Time.ToString(), appDate, textBox.Text, AppointmentTimeStart.Time, AppointmentTimeEnd.Time, rect);
 
+            //Create string for xaml label
+            var dataLabel = (textBox.Text + "   Date: " + AppointmentDate.Date.Value.ToString("dd/MM/yyyy") + "   Start Time: " + AppointmentTimeStart.Time.ToString() + "    End: " + AppointmentTimeEnd.Time.ToString() );
+
             //Create a new todo item
-            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString(), appointmentID = appointmentIdGlobal}; 
+            var todoItem = new TodoItem { Text = textBox.Text, appointmentDate = appDate, appointmentTime = AppointmentTimeStart.Time.ToString(), appointmentTimeEnd = AppointmentTimeEnd.Time.ToString(), appointmentID = appointmentIdGlobal, dataString = dataLabel}; 
             
             //Clear necessary variables
             textBox.Text = "";

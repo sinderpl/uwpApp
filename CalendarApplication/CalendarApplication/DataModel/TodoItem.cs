@@ -15,6 +15,9 @@ namespace CalendarApplication
         [JsonProperty(PropertyName = "appointmentName")]
         public string Text { get; set; }
 
+        [JsonProperty(PropertyName = "dataCompleteString")]
+        public String dataString { get; set; }
+
         [JsonProperty(PropertyName = "appointmentTime")]
         public String appointmentTime { get; set; }
 

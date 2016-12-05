@@ -28,13 +28,13 @@
     <AppXManifest Include="C:\Users\Alan\Desktop\uwpApp\CalendarApplication\CalendarApplication\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-12-05T20:47:22.860</Modified>
+      <Modified>2016-12-05T21:22:30.370</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Alan\Desktop\uwpApp\CalendarApplication\CalendarApplication\bin\x86\Debug\CalendarApplication.exe">
       <PackagePath>entrypoint\CalendarApplication.exe</PackagePath>
-      <Modified>2016-12-05T20:47:22.418</Modified>
+      <Modified>2016-12-05T21:22:29.410</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Alan\.nuget\packages\Microsoft.Azure.Mobile.Client\3.0.3\lib\netcore45\Microsoft.WindowsAzure.Mobile.Ext.dll">
       <PackagePath>Microsoft.WindowsAzure.Mobile.Ext.dll</PackagePath>
@@ -580,7 +580,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Alan\Desktop\uwpApp\CalendarApplication\CalendarApplication\bin\x86\Debug\CalendarApplication.xr.xml">
       <PackagePath>CalendarApplication.xr.xml</PackagePath>
-      <Modified>2016-12-05T20:44:17.188</Modified>
+      <Modified>2016-12-05T20:58:05.943</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -589,11 +589,11 @@
     <AppxPackagedFile Include="C:\Users\Alan\Desktop\uwpApp\CalendarApplication\CalendarApplication\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2016-12-05T20:46:48.001</Modified>
+      <Modified>2016-12-05T20:58:06.626</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Alan\Desktop\uwpApp\CalendarApplication\CalendarApplication\bin\x86\Debug\Core\CalendarApplication.exe">
       <PackagePath>CalendarApplication.exe</PackagePath>
-      <Modified>2016-12-05T20:47:22.857</Modified>
+      <Modified>2016-12-05T21:22:30.366</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
